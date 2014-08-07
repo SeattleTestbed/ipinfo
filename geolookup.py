@@ -48,10 +48,10 @@ for line in file('iplist'):
   if not record:
     record = {}
 
-  if 'country_code' not in record:
+  if 'country_code' not in record or record['country_code'] is None:
     record['country_code'] = '??'
 
-  if 'city' not in record:
+  if 'city' not in record or record['city'] is None:
     record['city'] = '??'
 
   if 'latitude' not in record:
@@ -60,7 +60,7 @@ for line in file('iplist'):
   if 'longitude' not in record:
     record['longitude'] = '??'
 
-  print >> geooutfd, ip,record['latitude'],record['longitude'],record['country_code'],record['city']
+  print >> geooutfd, ip,record['latitude'],record['longitude'],record['country_code'].encode('utf-8'),record['city'].encode('utf-8')
 
   if record['country_code'] not in country_count:
     country_count[record['country_code']] = 0

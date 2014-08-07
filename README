@@ -3,6 +3,9 @@
 This details how to gather IP statistics from apache logs.   We use this
 in Seattle, but it is general and could potentially be used in other projects.
 
+To use some utilities below, you will need to install PIL and pygeoip.   
+You can use pip to install these libraries.
+
 You are expected to have a directory with access.log* in it.   These files
 should be *uncompressed* to start with.   
 
@@ -14,8 +17,10 @@ Change into the directory with your access.log files.
 Now run: 
 initialparse *STRINGTOSEARCHFOR*
 
-For example, for Seattle, we run: 
+For example, for Seattle if we want to see software updates, we run: 
 scripts/initalparse metainfo
+
+To see all lines, use '.' as the argument.
 
 This will (eventually) produce a file called ipdate.filtered.log that
 has lines like this:
