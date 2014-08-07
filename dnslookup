@@ -1,0 +1,8 @@
+#!/bin/bash
+# take the iplist and do reverse DNS lookups.   Discard ones that aren't domain
+# name results
+
+for ip in `cat iplist`
+do
+  host $ip | grep "domain name" >> domainnamedata
+done

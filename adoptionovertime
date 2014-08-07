@@ -1,0 +1,5 @@
+#!/bin/bash
+# This takes the time the node was first seen and produces a file that has
+# the number of new nodes on that day
+
+cat firstseen | awk -F: '{print $1}' | awk '{print $2}' | uniq -c > datefirstseen
