@@ -106,7 +106,7 @@ ipinfo/dnslookup
 Once this is complete, you will want to categorize those nodes.   To do so,
 type:
 ````
-python domaintypes.py
+python ipinfo/domaintypes.py
 ````
 
 This will create a file summary.nodetypes.   It will also print out all of
