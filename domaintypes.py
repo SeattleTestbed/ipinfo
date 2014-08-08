@@ -1,32 +1,42 @@
+# Author: Justin Cappos
 
 # The purpose of this is to give a breakdown of 'types' of nodes.   This
 # is things like university machines, home nodes, phones, etc.
 
+# place where the output will go
 outfd = file('summary.nodetypes','w')
 
-# search bots to remove
-botnamelist = ['msnbot', 'googlebot']
 
-testbednamelist = ['planet', 'lab']
-
-phonenamelist = ['android', 'phone', 'tablet', 'ipad', 'mobile', 'tmodns.net', 
-      'cingular', 'vodafone', 'myvzw', 'tele']
+# These will be processed in order, so the order is relevant.   If 'foo' is
+# in the first one and 'bar' the second, 'foobar' will only be counted in the
+# first.
 
 
-edunamelist = ['edu', 'uni', 'uvic.ca', 'tuwien.ac.at', 'umich', 'kth.se', 
-      'chalmers.se', 'ubc.ca', 'utoronto.ca', 'ethz.ch', 'ust.hk', 'mpi-sws',
-      'ualberta.ca']
-
-homenamelist = ['dsl', 'dial', 'dyn', 'cable', 'comcast', 'qwest', 'pool',
-      'cust', 'broad', 'cox.net', 'netvigator', 'telering', 'rr.com', 
-      'triband', 'surfer', 'wayport', 'highway.a1', 'charter', 'verizon',
-      'singnet', 'kabel', 'pacenet-india']
-
-cloudnamelist = ['amazonaws', 'gae.googleusercontent', 'cloud']
-
-researchlablist = ['research', ]
-
+dnsnamefilters = (
+     {'message':'searchbots (not nodes).', 
+            'patterns':['msnbot', 'googlebot']}, 
+     {'message':'nodes in testbeds.',
+            'patterns':['planet', 'lab']},
+     {'message':'phones.',
+            'patterns':['android', 'phone', 'tablet', 'ipad', 'mobile', 
+                  'tmodns.net', 'cingular', 'vodafone', 'myvzw', 'tele']},
+     {'message':'nodes in university networks.',
+            'patterns': ['edu', 'uni', 'uvic.ca', 'tuwien.ac.at', 'umich', 
+                  'kth.se', 'chalmers.se', 'ubc.ca', 'utoronto.ca', 'ethz.ch', 
+                  'ust.hk', 'mpi-sws', 'ualberta.ca']},
+     {'message':'definite home nodes.',
+            'patterns': ['dsl', 'dial', 'dyn', 'cable', 'comcast', 'qwest', 
+                  'pool', 'cust', 'broad', 'cox.net', 'netvigator', 'telering',
+                  'rr.com', 'triband', 'surfer', 'wayport', 'highway.a1', 
+                  'charter', 'verizon', 'singnet', 'kabel', 'pacenet-india']},
+     {'message':'cloud nodes.',
+            'patterns': ['amazonaws', 'gae.googleusercontent', 'cloud']},
+     {'message':'research lab notes.',
+            'patterns': ['research',]}
 # sbcglobal and t-ipconnect.de (Deutsche Telekom) seem ambiguous home nodes.
+)
+
+
 
 domainnamedata = []
 
@@ -37,111 +47,24 @@ for line in file('domainnamedata'):
 print >> outfd, 'Started with',len(domainnamedata),'entries'
 
 
-searchbots = []
-for dnsname in domainnamedata[:]:
-  for botname in botnamelist:
-    if botname in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        searchbots.append(dnsname)
-    
-print >> outfd, len(searchbots),'searchbots (not nodes).'
+# Go through the filters and remove items we match
+for dnsfilter in dnsnamefilters:
+  thesematchingitems = []
 
+  for dnsname in domainnamedata[:]:
 
-testbednodes = []
-for dnsname in domainnamedata[:]:
-  for testbedname in testbednamelist:
-    if testbedname in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        testbednodes.append(dnsname)
-    
-print >> outfd, len(testbednodes),'nodes in testbeds.'
-
-phonenodes = []
-for dnsname in domainnamedata[:]:
-  for phonename in phonenamelist:
-    if phonename in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        phonenodes.append(dnsname)
-    
-print >> outfd, len(phonenodes),'phones.'
-
-edunodes = []
-for dnsname in domainnamedata[:]:
-  for eduname in edunamelist:
-    if eduname in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        edunodes.append(dnsname)
-
-print >> outfd, len(edunodes),'nodes in university networks.'
-    
-homenodes = []
-for dnsname in domainnamedata[:]:
-  for homename in homenamelist:
-    if homename in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        homenodes.append(dnsname)
+    for thisfilter in dnsfilter['patterns']:
+      if thisfilter in dnsname:
+        try:
+          domainnamedata.remove(dnsname)
+        except ValueError:
+          # duplicate entry...
+          pass
+        else:
+          thesematchingitems.append(dnsname)
     
 
-print >> outfd, len(homenodes),'definite home nodes.'
-
-
-cloudnodes = []
-for dnsname in domainnamedata[:]:
-  for cloudname in cloudnamelist:
-    if cloudname in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        cloudnodes.append(dnsname)
-    
-
-print >> outfd, len(cloudnodes),'cloud nodes.'
-
-
-researchnodes = []
-for dnsname in domainnamedata[:]:
-  for researchname in researchlablist:
-    if researchname in dnsname:
-      try:
-        domainnamedata.remove(dnsname)
-      except ValueError:
-        # duplicate entry...
-	pass
-      else:
-        researchnodes.append(dnsname)
-    
-
-print >> outfd, len(researchnodes),'research lab nodes.'
-
-
+  print >> outfd, len(thesematchingitems),dnsfilter['message']
 
 
 print >> outfd, len(domainnamedata),'remaining entries.'
