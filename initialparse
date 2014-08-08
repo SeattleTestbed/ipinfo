@@ -2,4 +2,7 @@
 # This takes the initial access log files and produces a single file that 
 # has IP date/time for each metainfo access entry.
 
+# make sure the grep output will contain ':' with the fn due to multiple files
+touch access.log.empty access.log.empty2
+
 grep $1  `ls -1 access.log* | sort -n -k 1.12 -r` | awk -F: '{print $2, $3, $4, $5}' | awk '{printf("%s %s:%s:%s:%s\n",$1,$4,$5,$6,$7);}'  | tr -d '[' > ipdate.filtered.log

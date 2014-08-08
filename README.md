@@ -28,7 +28,7 @@ initialparse *STRINGTOSEARCHFOR*
 
 For example, for Seattle if we want to see software updates, we run: 
 ````
-scripts/initalparse metainfo
+ipinfo/initalparse metainfo
 ````
 
 To see all lines, use '.' as the argument.
@@ -45,7 +45,7 @@ has lines like this:
 
 Run:
 ````
-python scripts/findfirstentry.py
+python ipinfo/findfirstentry.py
 ````
 
 This creates a file 'firstseen' that contains the very first entry for
@@ -53,7 +53,7 @@ each IP address.   (A word count of this file will list the number of IPs.)
 
 To see how many new nodes joined each day, use:
 ````
-scripts/adoptionovertime
+ipinfo/adoptionovertime
 ````
 
 This creates a file datefirstseen which contains this information in the
@@ -79,7 +79,7 @@ awk '{print $1}' ipdate.filtered.log | sort -u > iplist
 To look up the host names (VERY TIME CONSUMING, USE A SERVER AND LET IT RUN
 OVERNIGHT), do:
 ````
-scripts/dnslookup
+ipinfo/dnslookup
 ````
 
 This creates a file domainnamedata.   Note, if you need to stop and start
@@ -100,7 +100,7 @@ tail -n +1234 fulliplist > iplist  # use the line number from grep above
 ````
 now resume...
 ````
-scripts/dnslookup
+ipinfo/dnslookup
 ````
 
 Once this is complete, you will want to categorize those nodes.   To do so,
@@ -121,7 +121,7 @@ categorization of nodes for future runs.
 
 To look up the geoip locations, you can run:
 ````
-python scripts/geolookup.py
+python ipinfo/geolookup.py
 ````
 
 This will produce two files: geo.info and country.info.   The geo.info
@@ -166,11 +166,11 @@ virtualenv to install it.
 To plot latitude and longitude information use the drawmap.py script with
 an argument for the latlong file to use.   For example use one of these:
 ````
-python scripts/drawmap.py latlong.info  # fine points
+python ipinfo/drawmap.py latlong.info  # fine points
 ````
 or
 ````
-python scripts/drawmap.py splatter.latlong.info  # large points
+python ipinfo/drawmap.py splatter.latlong.info  # large points
 ````
 
 This script plots the location of points in two different ways.
@@ -187,13 +187,13 @@ different values based upon the number of nodes:
 ````
 
 Each line has 360 characters (longitude) and there are 180 lines (latitude).
-Example output can be found in scripts/examples/map.ascii.
+Example output can be found in ipinfo/examples/map.ascii.
 
 It also produces a map.png file that contains the relevant points (plotted) and
 transparent pixels for the remainder.   If you open this in a drawing program
 (e.g. Preview on the Mac) and copy it over a world map (e.g. 
-scripts/worldmap.jpg), this will plot the pixels in the right place.
+ipinfo/worldmap.jpg), this will plot the pixels in the right place.
 The bar at the bottom indicates the meaning of the colors, with 1, 10, 100,
 and 1000 signaling color transitions.   Example output can be found in
-scripts/examples/map.png and scripts/examples/finishedmap.pdf
+ipinfo/examples/map.png and ipinfo/examples/finishedmap.pdf
 
