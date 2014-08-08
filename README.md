@@ -177,12 +177,14 @@ This script plots the location of points in two different ways.
 First, it produces an ASCII map called 'map.ascii' where points are assigned
 different values based upon the number of nodes:
 
+````
   if value == 0: ' '
   if value <= 10: '.'
   if value <= 50: 'o'
   if value <= 250: 'O'
   if value <= 1250: '@'
   else: '*'
+````
 
 Each line has 360 characters (longitude) and there are 180 lines (latitude).
 Example output can be found in scripts/examples/map.ascii.
