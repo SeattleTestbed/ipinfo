@@ -85,11 +85,11 @@ ipinfo/dnslookup
 This creates a file domainnamedata.   Note, if you need to stop and start
 this due to your network being disconnected, etc., you can look for the
 last valid line number (grep -n) and then use tail -n +lineno to find out
-where to resume from.
+where to resume from.  You can modify your iplist file so that you resume
+from where you left off, however **before you alter the iplist file, 
+remember to back it up.**
 
-**Before you do the above, remember to backup the iplist file**
-
-For example:
+Here is an example of how to resume execution:
 ````
 tail domainnamedata
 mv iplist fulliplist
