@@ -168,12 +168,7 @@ To plot latitude and longitude information use the drawmap.py script with
 an argument for the latlong file to use.   For example use one of these:
 ````
 python ipinfo/drawmap.py latlong.info  # fine points
-````
-or
-````
 python ipinfo/drawmap.py twobytwo.latlong.info  # medium points
-or
-````
 python ipinfo/drawmap.py splatter.latlong.info  # large points
 ````
 
