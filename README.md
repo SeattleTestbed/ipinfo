@@ -155,8 +155,9 @@ sort -k3 -n country.info
 
 This will also produce files that contain latitude, longitude, and count
 information.   For example, latlong.info just contains the rounded lat
-and long values w/ a count.   splatter is similar, but makes surrounding values
-larger as well so the points aren't so missible when graphed.
+and long values w/ a count.   
+twobytwo is similar, but plots points as a 2x2 so the points aren't so 
+missible when graphed.  splatter increases this to 3x3.
 
 ## DRAWING LOCATION GRAPHS
 
@@ -168,6 +169,9 @@ an argument for the latlong file to use.   For example use one of these:
 ````
 python ipinfo/drawmap.py latlong.info  # fine points
 ````
+or
+````
+python ipinfo/drawmap.py twobytwo.latlong.info  # medium points
 or
 ````
 python ipinfo/drawmap.py splatter.latlong.info  # large points

@@ -17,6 +17,8 @@ latlongoutfd = file('latlong.info','w')
 
 # This trickles the data out to surrounding areas.  We add the observed point
 # in each neighboring area.
+twobytwooutfd = file('twobytwo.latlong.info','w')
+# splatter is 3x3
 splatteroutfd = file('splatter.latlong.info','w')
 
 
@@ -40,6 +42,7 @@ geoipdb = pygeoip.GeoIP(scriptdir+"/GeoLiteCity.dat")
 country_count = {}
 latlongdict = {}
 splatterdict = {}
+twobytwodict = {}
 
 for line in file('iplist'):
   ip = line.strip()
@@ -84,6 +87,31 @@ for line in file('iplist'):
 
   latlongdict[(latitude,longitude)] += 1
 
+  # time to do the 2x2
+  # If we rounded down, choose the point at -1...
+  if record['latitude'] < latitude:
+    otherlatitude = latitude - 1
+  else:
+    otherlatitude = latitude + 1
+
+  # similar to above for longitude
+  if record['longitude'] < longitude:
+    otherlongitude = longitude - 1
+  else:
+    otherlongitude = longitude + 1
+
+  # now plot the points...
+  for latval, longval in [(latitude,longitude),(otherlatitude,longitude),(latitude,otherlongitude),(otherlatitude,otherlongitude)]:
+    # Do the same single point propagation...
+    if (latval, longval) not in twobytwodict:
+      twobytwodict[(latval,longval)] = 0
+
+    twobytwodict[(latval,longval)] += 1
+
+
+
+
+
   # 60% in the corners, 100% in the center / mid edges
   for latoffset, longoffset in [(-1,-1),(-1,1),(1,-1),(1,1)]:
     thislat = latitude + latoffset
@@ -112,6 +140,9 @@ for countrycode in sortedcountries:
 
 for latlong in latlongdict:
   print >> latlongoutfd, latlong[0], latlong[1], latlongdict[(latlong[0],latlong[1])]
+
+for latlong in twobytwodict:
+  print >> twobytwooutfd, latlong[0], latlong[1], int(round(twobytwodict[(latlong[0],latlong[1])]))
 
 for latlong in splatterdict:
   print >> splatteroutfd, latlong[0], latlong[1], int(round(splatterdict[(latlong[0],latlong[1])]))
