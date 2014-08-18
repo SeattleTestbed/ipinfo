@@ -165,7 +165,7 @@ NOTE: You need to have PIL installed to run this script!   Use pip /
 virtualenv to install it.
 
 To plot latitude and longitude information use the drawmap.py script with
-an argument for the latlong file to use.   For example use one of these:
+an argument for the latlong file to use.   For example use *one* of these:
 ````
 python ipinfo/drawmap.py latlong.info  # fine points
 python ipinfo/drawmap.py twobytwo.latlong.info  # medium points
